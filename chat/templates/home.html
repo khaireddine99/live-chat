@@ -4,14 +4,18 @@
 {% block title %}Home{% endblock %}
 
 {% block content %}
-{% if user.is_authenticated %}
-  Hi {{ user.username }}!
-  <br>
-  <a href="{% url 'logout' %}">Log Out</a> |
+<nav>
+  {% if user.is_authenticated %}
+  <p>Hi {{ user.username }}!</p>
   <a href="{% url 'index' %}">Chat</a>
+  <a class="leftist" href="{% url 'logout' %}">Log Out</a> 
+  
 {% else %}
   <p>You are not logged in</p>
   <a href="{% url 'custom_login' %}">Log In</a> |
-  <a href="{% url 'signup' %}">Sign Up</a> |
+  <a class="leftist" href="{% url 'signup' %}">Sign Up</a> |
 {% endif %}
+
+</nav>
+
 {% endblock %}

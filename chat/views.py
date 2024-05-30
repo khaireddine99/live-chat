@@ -26,7 +26,9 @@ def customLogin(request):
         user = authenticate(request, username=username, password=password)
         if user is not None:
             login(request, user)
+            print("user logged in")
             return redirect('index')
+            
         else:
             print("user not found")    
 

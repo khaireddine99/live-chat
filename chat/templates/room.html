@@ -7,6 +7,14 @@
     <title>Chat Room</title>
 </head>
 <body>
+    
+</body>
+</html>
+
+
+{% extends 'base.html' %}
+{% block content %}
+<div style="background-color: rgba(255, 255, 255, 0.7);">
     <textarea id="chat-log" cols="100" rows="20"></textarea><br>
     <input id="chat-message-input" type="text" size="100"><br>
     <input id="chat-message-submit" type="button" value="Send"><br>
@@ -68,5 +76,5 @@
             chatLog.scrollTop = chatLog.scrollHeight;  // Scroll to the bottom
         }
     </script>
-</body>
-</html>
+</div>
+{% endblock content %}

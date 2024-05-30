@@ -1,14 +1,22 @@
-<!-- templates/base.html -->
+{% load static %}
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <meta charset="utf-8">
-  <title>{% block title %}Django Auth Tutorial{% endblock %}</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'style.css' %}">
+    <title>{% block title %}Django Auth Tutorial{% endblock %}</title>
+
 </head>
 <body>
-  <main>
+    <!--
+    <nav>
+        <a href="">HOME</a>
+        <a href="" class="leftist">LOGIN</a> |
+        <a href="" class="leftist">REGISTER</a>
+    </nav>
+    -->
     {% block content %}
     {% endblock %}
-  </main>
 </body>
 </html>

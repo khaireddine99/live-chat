@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<nav>
+    <a href="{% url 'new_post' %}">create post</a>
+
+<a class="leftist" href="{% url 'posts' %}">posts</a>
+</nav>
+
+<form action="{% url 'new_post' %}" method="post" enctype="multipart/form-data">
+    <h1>create your post</h1>
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Save</button>
+</form>
+
+{% endblock content %}

@@ -2,7 +2,9 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login
-
+from .forms import PostForm
+from chat.models import Post
+ 
 
 @login_required
 def index(request):
@@ -32,4 +34,22 @@ def customLogin(request):
         else:
             print("user not found")    
 
-    return render(request, 'customLogin.html')        
+    return render(request, 'customLogin.html')       
+
+
+def create_post(request):
+    if request.method == 'POST':
+        form = PostForm(request.POST, request.FILES)
+        if form.is_valid():
+            post = form.save(commit=False)
+            post.owner = request.user 
+            post.save()
+        
+    else:
+        form = PostForm()
+    return render(request, 'new_post.html', {'form': form})
+
+# Fetch all posts from the database
+def post_list(request):
+    posts = Post.objects.all()  
+    return render(request, 'posts.html', {'posts': posts})

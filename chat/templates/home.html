@@ -5,16 +5,11 @@
 
 {% block content %}
 <nav>
-  {% if user.is_authenticated %}
-  <p>Hi {{ user.username }}!</p>
-  <a href="{% url 'index' %}">Chat</a>
-  <a class="leftist" href="{% url 'logout' %}">Log Out</a> 
-  
-{% else %}
-  <p>You are not logged in</p>
-  <a href="{% url 'custom_login' %}">Log In</a> |
-  <a class="leftist" href="{% url 'signup' %}">Sign Up</a> |
-{% endif %}
+
+
+<a href="{% url 'new_post' %}">create post</a>
+
+<a class="leftist" href="{% url 'posts' %}">posts</a>
 
 </nav>
 

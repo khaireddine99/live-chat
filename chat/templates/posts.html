@@ -7,6 +7,7 @@
 
 <div id="container">
     {% for post in posts %}
+    <div id="post">
         <h2>{{ post.title }}</h2>
         <p>{{ post.body }}</p>
         {% if post.image %}
@@ -14,6 +15,13 @@
         {% else %}
             <p>No image available</p>
         {% endif %}
+    </div>
+    
+        
+    
     {% endfor %}
+
 </div>
+    
+
 {% endblock content %}

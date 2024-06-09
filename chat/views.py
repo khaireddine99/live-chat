@@ -44,6 +44,7 @@ def create_post(request):
             post = form.save(commit=False)
             post.owner = request.user 
             post.save()
+            return redirect('posts')
         
     else:
         form = PostForm()

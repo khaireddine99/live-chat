@@ -2,8 +2,8 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login
-from .forms import PostForm
-from chat.models import Post
+from .forms import PostForm, CommentForm
+from chat.models import Post, Comment
  
 
 @login_required
@@ -54,3 +54,24 @@ def create_post(request):
 def post_list(request):
     posts = Post.objects.all()  
     return render(request, 'posts.html', {'posts': posts})
+
+# fetch a post 
+def post(request, post_id):
+    post = Post.objects.get(id=post_id)
+
+    # load comments
+    comments = Comment.objects.filter(post=post)
+
+    # write a comment 
+    if request.method != 'POST':
+        form = CommentForm()
+    else:
+        form = CommentForm(data=request.POST)
+        if form.is_valid():
+            NewComment = form.save(commit=False)
+            NewComment.post = post
+            NewComment.save()
+            form = CommentForm    
+
+    context = {'post':post, 'form': form, 'comments':comments }
+    return render(request, 'post.html', context)

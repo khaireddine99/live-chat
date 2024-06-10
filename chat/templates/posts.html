@@ -8,17 +8,19 @@
 <div id="container">
     {% for post in posts %}
     <div id="post">
-        <h2>{{ post.title }}</h2>
+        <a href="{% url 'post' post.id %}"><h2>{{ post.title }}</h2></a>
+        
         <p>{{ post.body }}</p>
         {% if post.image %}
             <img src="{{ post.image.url }}" alt="{{ post.title }}" style="max-width: 100%; height: auto;">
         {% else %}
             <p>No image available</p>
         {% endif %}
+        
     </div>
     
         
-    
+   
     {% endfor %}
 
 </div>

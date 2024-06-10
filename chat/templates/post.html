@@ -1,0 +1,38 @@
+
+
+{% extends 'base.html' %}
+        {% block content %}
+        <nav>
+        <a href="{% url 'new_post' %}">create post</a>
+        <a class="leftist" href="{% url 'posts' %}">posts</a>
+        </nav>
+
+        <div id="post">
+            <h2>{{ post.title }}</h2>
+            <p>{{ post.body }}</p>
+            {% if post.image %}
+            <img src="{{ post.image.url }}" alt="{{ post.title }}" style="max-width: 100%; height: auto;">
+        {% else %}
+            <p>No image available</p>
+        {% endif %}
+        <h1>comments 😇:</h1>
+        {% for comment in comments %}
+        <p id="comment">{{comment.body}}</p>
+        {% endfor %}
+        <h1>
+            add a new comment 😈:
+        </h1>
+        <form action="{% url 'post' post.id %}" method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button name="submit">add comment</button>
+        </form>
+        </div>
+
+        
+        
+        
+        
+            
+        
+        {% endblock content %}       

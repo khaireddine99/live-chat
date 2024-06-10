@@ -55,6 +55,10 @@ textarea {
     background-color: rgba(255, 255, 255, 0.7);
 }
 
+#comment {
+    border:  2px solid rgb(0, 0, 0);
+}
+
 #login {
     display: flex;
     justify-content: center;
@@ -72,11 +76,14 @@ textarea {
 }
 
 #container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    border: 2px solid rgb(255, 0, 0);
-    width: 500px;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); /* Responsive grid columns */
+    gap: 20px;
+    padding: 20px;
+    max-width: 1200px;
+    width: 100%;
+    margin: 0 auto;
+    box-sizing: border-box;
 }
 
 #post {

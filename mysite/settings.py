@@ -51,6 +51,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     'accounts',
+    'django_recaptcha',
 ]
 
 MIDDLEWARE = [
@@ -144,3 +145,7 @@ LOGOUT_REDIRECT_URL = "home"
 # media settings 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+# settings.py
+RECAPTCHA_PUBLIC_KEY = '6LcW5_0pAAAAAKN1ARokeX4UGbrQv-nAuf-GbK2u'
+RECAPTCHA_PRIVATE_KEY = '6LcW5_0pAAAAAAC7ODwYOjYimuHhXBJp1ojxz6NP'

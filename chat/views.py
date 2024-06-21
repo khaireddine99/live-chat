@@ -4,6 +4,8 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login
 from .forms import PostForm, CommentForm
 from chat.models import Post, Comment
+from django.conf import settings
+import requests
  
 
 @login_required
@@ -42,12 +44,14 @@ def create_post(request):
         form = PostForm(request.POST, request.FILES)
         if form.is_valid():
             post = form.save(commit=False)
-            post.owner = request.user 
+            post.owner = request.user
             post.save()
             return redirect('posts')
-        
+        else:
+            form.add_error(None, 'Invalid reCAPTCHA. Please try again.')
     else:
         form = PostForm()
+
     return render(request, 'new_post.html', {'form': form})
 
 # Fetch all posts from the database
@@ -71,7 +75,9 @@ def post(request, post_id):
             NewComment = form.save(commit=False)
             NewComment.post = post
             NewComment.save()
-            form = CommentForm    
+            form = CommentForm   
+        else:
+            form.add_error(None, 'Invalid reCAPTCHA. Please try again.') 
 
     context = {'post':post, 'form': form, 'comments':comments }
     return render(request, 'post.html', context)

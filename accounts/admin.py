@@ -2,21 +2,24 @@ from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 from .forms import CustomUserCreationForm, CustomUserChangeForm
 from .models import CustomUser
-from chat.models import Message, Post
 
 class CustomUserAdmin(UserAdmin):
-    add_form = CustomUserCreationForm
-    form = CustomUserChangeForm
-    model = CustomUser
-    list_display = ["username", "email", "gender", "is_staff", "gay"]
-    list_filter = ["is_staff", "is_superuser", "is_active", "gender", "gay"]
+    list_display = ["id", "username", "email", "gender", "is_staff", "gay"]
     
     fieldsets = (
         (None, {'fields': ('username', 'password')}),
-        ('Personal info', {'fields': ('first_name', 'last_name', 'email', 'gender', "gay")})
+        ('Personal info', {'fields': ('email', 'gender', "gay")})
+    )
+    
+    add_fieldsets = (
+        (None, {
+            'classes': ('wide',),
+            'fields': ('username', 'email', 'gender', 'gay', 'password1', 'password2'),
+        }),
     )
 
     
 admin.site.register(CustomUser, CustomUserAdmin)
 admin.site.register(Message)
 admin.site.register(Post)
+

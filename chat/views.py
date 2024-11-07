@@ -7,7 +7,6 @@ from chat.models import Post, Comment
 from django.conf import settings
 import requests
  
-
 @login_required
 def index(request):
     return render(request, "index.html")
@@ -81,3 +80,6 @@ def post(request, post_id):
 
     context = {'post':post, 'form': form, 'comments':comments }
     return render(request, 'post.html', context)
+
+def audio_post(request):
+    return render(request, 'audio_post.html')

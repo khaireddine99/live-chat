@@ -10,8 +10,96 @@
     {% csrf_token %}
     {{ form.as_p }}
     <div class="g-recaptcha" data-sitekey="{{ recaptcha_site_key }}"></div>
+    <h1>Record Voice Message</h1>
+<button id="recordButton">Record</button>
+<button id="stopButton" disabled>Stop</button>
+<audio id="audioPlayback" controls></audio>
+<form id="uploadForm" method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    <input type="hidden" name="audio_file" id="audioFile">
+    <button type="submit" disabled>Upload</button>
+</form>
     <button type="submit">Save</button>
 </form>
 
-<script src="https://www.google.com/recaptcha/api.js" async defer></script>
+
+
+<script>
+    let recordButton = document.getElementById("recordButton");
+    let stopButton = document.getElementById("stopButton");
+    let audioPlayback = document.getElementById("audioPlayback");
+    let uploadForm = document.getElementById("uploadForm");
+    let audioFileInput = document.getElementById("audioFile");
+    let audioBlob;
+
+    let mediaRecorder;
+    let audioChunks = [];
+
+    // Get the CSRF token
+    function getCookie(name) {
+        let cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+            const cookies = document.cookie.split(';');
+            for (let i = 0; i < cookies.length; i++) {
+                const cookie = cookies[i].trim();
+                if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
+    }
+    const csrftoken = getCookie('csrftoken');
+
+    recordButton.addEventListener("click", () => {
+        navigator.mediaDevices.getUserMedia({ audio: true })
+            .then(stream => {
+                mediaRecorder = new MediaRecorder(stream);
+                mediaRecorder.start();
+
+                recordButton.disabled = true;
+                stopButton.disabled = false;
+
+                mediaRecorder.addEventListener("dataavailable", event => {
+                    audioChunks.push(event.data);
+                });
+
+                mediaRecorder.addEventListener("stop", () => {
+                    audioBlob = new Blob(audioChunks, { type: 'audio/wav' });
+                    let audioUrl = URL.createObjectURL(audioBlob);
+                    audioPlayback.src = audioUrl;
+
+                    let file = new File([audioBlob], 'voice_message.wav', { type: 'audio/wav' });
+                    let formData = new FormData();
+                    formData.append('audio_file', file);
+                    formData.append('csrfmiddlewaretoken', csrftoken);  // Include CSRF token
+
+                    fetch(uploadForm.action, {
+                        method: 'POST',
+                        body: formData,
+                        headers: {
+                            'X-CSRFToken': csrftoken
+                        }
+                    }).then(response => {
+                        if (response.ok) {
+                            alert('Voice message uploaded successfully!');
+                        } else {
+                            alert('Failed to upload voice message.');
+                        }
+                    });
+
+                    audioChunks = [];
+                });
+            });
+    });
+
+    stopButton.addEventListener("click", () => {
+        mediaRecorder.stop();
+
+        recordButton.disabled = false;
+        stopButton.disabled = true;
+    });
+</script>
+
 {% endblock content %}

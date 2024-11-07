@@ -11,7 +11,7 @@ class CustomUser(AbstractUser):
     ]
     
     # Add the gender field
-    gender = models.CharField(max_length=1, choices=GENDER_CHOICES, blank=True, null=False)
+    gender = models.CharField(max_length=1, choices=GENDER_CHOICES, blank=False, null=False)
 
     gay = models.BooleanField(default=True)
 

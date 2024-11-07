@@ -63,6 +63,8 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+
+    'chat.middleware.LogIPMiddleware',  # Add this line
 ]
 
 ROOT_URLCONF = 'mysite.urls'
@@ -150,3 +152,22 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 # settings.py
 RECAPTCHA_PUBLIC_KEY = '6LcW5_0pAAAAAKN1ARokeX4UGbrQv-nAuf-GbK2u'
 RECAPTCHA_PRIVATE_KEY = '6LcW5_0pAAAAAAC7ODwYOjYimuHhXBJp1ojxz6NP'
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {
+        'file': {
+            'level': 'INFO',
+            'class': 'logging.FileHandler',
+            'filename': 'visitor_ips.log',
+        },
+    },
+    'loggers': {
+        'chat': {
+            'handlers': ['file'],
+            'level': 'INFO',
+            'propagate': True,
+        },
+    },
+}

@@ -20,6 +20,5 @@ class CustomUserAdmin(UserAdmin):
 
     
 admin.site.register(CustomUser, CustomUserAdmin)
-admin.site.register(Message)
-admin.site.register(Post)
+
 

@@ -52,6 +52,7 @@ INSTALLED_APPS = [
 
     'accounts',
     'django_recaptcha',
+    'voting',
 ]
 
 MIDDLEWARE = [

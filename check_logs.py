@@ -4,5 +4,9 @@ with open('visitor_ips.log', 'r') as file:
     log_data = file.readlines()
 
 # Print each line (log entry)
+ip_list = set()
 for entry in log_data:
-    print(entry)
+    ip_list.add(entry)
+
+for ip in ip_list:
+    print(ip)

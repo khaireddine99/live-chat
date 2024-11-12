@@ -50,6 +50,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
+    'corsheaders',
+
     'accounts',
     'django_recaptcha',
     'voting',
@@ -65,7 +67,11 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 
     'chat.middleware.LogIPMiddleware',  # Add this line
+    'corsheaders.middleware.CorsMiddleware',
 ]
+
+# Allow all domains (for development purposes)
+CORS_ALLOW_ALL_ORIGINS = True
 
 ROOT_URLCONF = 'mysite.urls'
 

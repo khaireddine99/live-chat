@@ -23,4 +23,8 @@ class Post(models.Model):
 class Comment(models.Model):
     post = models.ForeignKey(Post, on_delete=models.CASCADE)
     body = models.TextField()
+
+class Screenshot(models.Model):
+    image = models.ImageField(upload_to='screenshots/')
+    created_at = models.DateTimeField(auto_now_add=True)
    

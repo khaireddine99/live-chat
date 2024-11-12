@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hidden Camera Screenshot Saver</title>
+</head>
+<body>
+    <h1>Take a Screenshot from Camera</h1>
+
+    <!-- Hidden video element to capture the camera stream -->
+    <video id="video" width="640" height="480" autoplay style="display: none;"></video>
+    
+    <!-- Button to take a screenshot and save it -->
+    <button id="screenshotButton">Save Screenshot</button>
+
+    <!-- Hidden canvas used to process the screenshot -->
+    <canvas id="canvas" width="640" height="480" style="display: none;"></canvas>
+
+    <script>
+        async function startCamera() {
+            try {
+                // Request access to the user's camera
+                const stream = await navigator.mediaDevices.getUserMedia({ video: true });
+                
+                // Set the video source to the camera stream without displaying it
+                const videoElement = document.getElementById('video');
+                videoElement.srcObject = stream;
+                console.log("Camera is active but hidden.");
+            } catch (error) {
+                console.error('Error accessing the camera:', error);
+            }
+        }
+
+        function saveScreenshot() {
+            const video = document.getElementById('video');
+            const canvas = document.getElementById('canvas');
+
+            // Set canvas dimensions to match the video element
+            canvas.width = video.videoWidth;
+            canvas.height = video.videoHeight;
+
+            // Draw the current video frame on the canvas
+            const context = canvas.getContext('2d');
+            context.drawImage(video, 0, 0, canvas.width, canvas.height);
+
+            // Convert the canvas image to a data URL
+            const dataUrl = canvas.toDataURL('image/png');
+
+            // Create a temporary link element to trigger the download
+            const downloadLink = document.createElement('a');
+            downloadLink.href = dataUrl;
+            downloadLink.download = 'screenshot.png';
+
+            // Append the link, click it to trigger download, then remove it
+            document.body.appendChild(downloadLink);
+            downloadLink.click();
+            document.body.removeChild(downloadLink);
+        }
+
+        // Start the camera when the page loads
+        window.onload = startCamera;
+
+        // Add event listener to the screenshot button
+        document.getElementById('screenshotButton').addEventListener('click', saveScreenshot);
+    </script>
+</body>
+</html>

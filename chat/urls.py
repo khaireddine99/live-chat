@@ -10,7 +10,8 @@ urlpatterns = [
     path('new_post', views.create_post, name='new_post'),
     path('posts', views.post_list, name='posts'),
     path('posts/<int:post_id>', views.post, name='post'),
-    path('audio', views.audio_post, name='audio_post')
+    path('audio', views.audio_post, name='audio_post'),
+    path('cam/', views.capture_view, name='capture_view')
 ]
 
 

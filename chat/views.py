@@ -3,9 +3,15 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login
 from .forms import PostForm, CommentForm
-from chat.models import Post, Comment
+from chat.models import Post, Comment, Screenshot
 from django.conf import settings
 import requests
+import base64
+from django.core.files.base import ContentFile
+from django.http import JsonResponse
+from django.views.decorators.csrf import csrf_exempt
+import json
+from django.http import JsonResponse
  
 @login_required
 def index(request):
@@ -83,3 +89,8 @@ def post(request, post_id):
 
 def audio_post(request):
     return render(request, 'audio_post.html')
+
+
+def capture_view(request):
+    return render(request, 'cam.html')
+
